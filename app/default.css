@@ -1,0 +1,23 @@
+html, body
+{
+   margin: 0;
+   padding: 0;
+}
+
+ul
+{
+   list-style: square;
+}
+ul ul
+{
+   list-style: disc;
+}
+ul ul ul
+{
+   list-style: circle;
+}
+
+pre a { text-decoration: none; }
+a { color: #004a97; text-decoration: underline; }
+
+.pageBreakAfter { page-break-after: always; }

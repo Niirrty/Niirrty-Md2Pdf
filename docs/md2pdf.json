@@ -1,0 +1,16 @@
+{
+    "outputFile": "{CWD}/md2pdf-doc.pdf",
+    "recursive": false,
+    "files": [
+        "{CWD}/01-installation.md",
+        "{CWD}/02-configuration.md",
+        "{CWD}/03-build-pdf-output.md",
+        "{CWD}/04-supported-markdown.md"
+    ],
+    "documentTitle": "Md2Pdf Documentation",
+    "pageTitle": "Md2Pdf Documentation",
+    "header": "{CWD}/.md2pdf/header.tpl",
+    "userCSS": [ "{CWD}/.md2pdf/md2pdf.css" ],
+    "tocMaxLevel": 4,
+    "pageMarginTopIfHeader": 25
+}

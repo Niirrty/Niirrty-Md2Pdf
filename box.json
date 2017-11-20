@@ -1,0 +1,27 @@
+{
+   "chmod": "0755",
+   "finder": [
+      {
+         "name": "*.*",
+         "notName": "/(phpunit\\.xml|\\.(dat|json|md|txt))$/",
+         "exclude": [ "phpunit", "test", "tests", "Tests", "example", "examples", "ttfonts", "bin", "QrCode" ],
+         "in": "vendor"
+      },
+      {
+         "name": "*.php",
+         "in": "src"
+      },
+      {
+         "name": "*.*",
+         "ignoreDotFiles": false,
+         "in": "app"
+      }
+   ],
+   "main": "app/index.php",
+   "output": "bin/md2pdf.phar",
+   "stub": true,
+   "compactors": [
+      "Herrera\\Box\\Compactor\\Json",
+      "Herrera\\Box\\Compactor\\Php"
+   ]
+}

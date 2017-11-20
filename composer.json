@@ -1,0 +1,27 @@
+{
+   "name": "niirrty/niirrty.md2pdf",
+   "description": "Convert markdown to PDF.",
+   "type": "application",
+   "license": "MIT",
+   "authors": [
+      {
+         "name": "Ni Irrty",
+         "email": "niirrty+code@gmail.com"
+      }
+   ],
+   "require": {
+      "php": ">=7.1",
+      "symfony/console": "3.3.*",
+      "michelf/php-markdown": "1.7.*",
+      "querypath/querypath": "3.*",
+      "masterminds/html5": "2.3.0",
+      "mpdf/mpdf": "v7.0.0-beta2",
+      "geshi/geshi": "v1.0.9.0",
+      "knplabs/knp-menu": "2.2.0"
+   },
+   "autoload": {
+      "psr-4": {
+         "Niirrty\\Md2Pdf\\": "src"
+      }
+   }
+}
