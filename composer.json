@@ -17,7 +17,8 @@
       "masterminds/html5": "2.3.0",
       "mpdf/mpdf": "v7.0.0-beta2",
       "geshi/geshi": "v1.0.9.0",
-      "knplabs/knp-menu": "2.2.0"
+      "knplabs/knp-menu": "2.2.0",
+      "niirrty/niirrty.io": "~0.1"
    },
    "autoload": {
       "psr-4": {

@@ -17,6 +17,7 @@ use \GeSHi;
 use \Masterminds\HTML5 as HTML5Parser;
 use \Michelf\MarkdownExtra;
 use \Mpdf\Mpdf;
+use Niirrty\IO\Path;
 use \QueryPath\DOMQuery;
 use \Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -288,6 +289,10 @@ class Build extends Command
       {
 
          $tocGenerator = new TocGenerator();
+
+         #var_dump( $this->_config ); exit;
+         #echo 'TOChtml: ', $tocHTML, "\n"; exit;
+
          $tocHTML = $tocGenerator->getHtmlMenu( $html, 1, $this->_config[ 'tocMaxLevel' ] );
          $html = \preg_replace_callback(
             '~<body>\s+<div id="Page">~',
@@ -427,7 +432,9 @@ class Build extends Command
 
       // Read the markdown content
       $markdownContent = \file_get_contents( $filePath );
-      $pageId          = static::mdFilePathToPageId( $filePath );
+
+      $idFilePath      = Path::RemoveWorkingDir( $filePath );
+      $pageId          = static::mdFilePathToPageId( $idFilePath );
 
       // Convert Markdown to HTML
       $html = $this->_mdParser->transform( $markdownContent );
@@ -442,32 +449,39 @@ class Build extends Command
       $html = \preg_replace( '~</code>\s?</pre>~i', '</pre>', $html );
 
       // Replace manual page breaks
-      $html = \preg_replace( '~<p>\s*!!PAGEBREAK!!\s*</p>~i', '<div class="pageBreakAfter"></div>', $html );
+      $html = \preg_replace( '~<p>\s*!!!?PAGEBREAK!!!?\s*</p>~i', '<div class="pageBreakAfter"></div>', $html );
+
+      // First all h1-h6 elements become an unique ID, to be linkable.
+      $html = \preg_replace_callback(
+         '~<h([1-6])>([^<\\r\\n]+)</h([1-6])>~',
+         function( $matches )
+         {
+            $text = \trim( $matches[ 2 ] );
+            if ( '' === $text || $matches[ 1 ] !== $matches[ 3 ] )
+            {
+               return $matches[ 0 ];
+            }
+            $id1 = \strtolower( static::convertStringToWord( $text ) );
+            $id2 = $id1;
+            $i   = 0;
+            while ( \in_array( $id2, $this->_toc ) )
+            {
+               $id2 = $id1 . ++$i;
+            }
+            $this->_toc[] = $id2;
+            return \sprintf(
+               '<h%s><a name="%s">%s</a></h%s>',
+               $matches[ 1 ],
+               $id2,
+               $matches[ 2 ],
+               $matches[ 1 ]
+            );
+         },
+         $html
+      );
 
       // Get the DOM of the resulting HTML => Required to manipulate the dom
       $dom = $this->_html5Parser->loadHTML( $html );
-
-      // First all h1-h6 elements become an unique ID, to be linkable.
-      $headings = \QueryPath::withHTML( $dom, 'h1,h2,h3,h4,h5,h6' );
-      if ( $headings instanceof DOMQuery )
-      {
-         foreach ( $headings as $heading )
-         {
-            # $heading is of type \QueryPath\DOMQuery();
-            /** @noinspection PhpUndefinedMethodInspection */
-            if ( ! $heading->hasAttr( 'id' ) )
-            {
-               /** @noinspection PhpUndefinedMethodInspection */
-               $id = \strtolower( static::convertStringToWord( $heading->text() ) );
-               if ( ! \in_array( $id, $this->_toc ) )
-               {
-                  /** @noinspection PhpUndefinedMethodInspection */
-                  $heading->attr( 'id', $id );
-                  $this->_toc[] = $id;
-               }
-            }
-         }
-      }
 
       // Next all links should be checked
       $links = \QueryPath::withHTML( $dom, 'a[href]' );
@@ -718,7 +732,7 @@ class Build extends Command
    private static function paginize( string $html, string $pageId ) : string
    {
 
-      return '<div id="' . $pageId . '" class="page">' .
+      return '<div id="' . $pageId . '" class="page"><a name="' . $pageId . '"></a>' .
              \preg_replace( '~(<!DOCTYPE html>\s+<html>|</html>)~i', '', $html ) .
              '</div>';
 

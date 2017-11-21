@@ -26,8 +26,8 @@ class Md2PdfApp extends Application
    // <editor-fold desc="// – – –   C O N S T A N T S   – – – – – – – – – – – – – – – – – – – – – – – – – – – – –">
 
    public const NAME       = 'Niirrty Markdown to PDF converter';
-   public const VERSION    = '0.1.0';
-   public const BUILD_DATE = '2017-11-19';
+   public const VERSION    = '0.1.1';
+   public const BUILD_DATE = '2017-11-21';
 
    // </editor-fold>
 

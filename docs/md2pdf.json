@@ -1,5 +1,5 @@
 {
-    "outputFile": "{CWD}/md2pdf-doc.pdf",
+    "outputFile": "{CWD}/pdf/md2pdf-doc.pdf",
     "recursive": false,
     "files": [
         "{CWD}/01-installation.md",

@@ -1,5 +1,5 @@
 {
-    "outputFile": "{CWD}/md2pdf-dev-doc.pdf",
+    "outputFile": "{CWD}/pdf/md2pdf-dev-doc.pdf",
     "recursive": false,
     "files": [
         "{CWD}/05-developer-doc.md"
@@ -8,6 +8,6 @@
     "pageTitle": "Md2Pdf Developer Doc",
     "header": "{CWD}/.md2pdf/header.tpl",
     "userCSS": [ "{CWD}/.md2pdf/md2pdf.css" ],
-    "tocMaxLevel": 3,
+    "tocMaxLevel": -1,
     "pageMarginTopIfHeader": 25
 }

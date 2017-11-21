@@ -80,16 +80,14 @@ class TocGenerator
       // Initial settings
       $lastElem    = $menu;
 
-      $domDocument = $this->domParser->loadHTML( $markup );
+      /** @noinspection HtmlUnknownAttribute */
+      \preg_match_all( '~<(h[1-6])><a name="([^"]+)">([^<\\r\\n]+)</a>~', $markup, $headerMatches );
 
-      foreach ( $this->traverseHeaderTags( $domDocument, $topLevel, $depth ) as $node )
+      for ( $i = 0, $c = \count( $headerMatches[ 0 ] ); $i < $c; $i++ )
       {
 
-         // Skip items without IDs
-         if ( ! $node->hasAttribute('id')) { continue; }
-
          // Get the TagName and the level
-         $tagName = $node->tagName;
+         $tagName = $headerMatches[ 1 ][ $i ];
          $level   = \array_search( \strtolower( $tagName ), $tagsToMatch ) + 1;
 
          // Determine parent item which to add child
@@ -104,7 +102,7 @@ class TocGenerator
          else if ( $level > $lastElem->getLevel() )
          {
             $parent = $lastElem;
-            for ( $i = $lastElem->getLevel(); $i < ($level - 1); $i++ )
+            for ( $j = $lastElem->getLevel(); $j < ($level - 1); $j++ )
             {
                $parent = $parent->addChild( '' );
             }
@@ -120,8 +118,8 @@ class TocGenerator
          }
 
          $lastElem = $parent->addChild(
-            $node->getAttribute( 'title' ) ?: $node->textContent,
-            [ 'uri' => '#' . $node->getAttribute('id') ]
+            $headerMatches[ 3 ][ $i ],
+            [ 'uri' => '#' . $headerMatches[ 2 ][ $i ] ]
          );
 
       }
