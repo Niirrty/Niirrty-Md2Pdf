@@ -4,7 +4,7 @@
  * @copyright  ©2017, Ni Irrty
  * @package    Niirrty\Md2Pdf
  * @since      2017-10-15
- * @version    0.1.0
+ * @version    0.3.0
  */
 
 declare( strict_types=1 );
@@ -80,8 +80,7 @@ class TocGenerator
       // Initial settings
       $lastElem    = $menu;
 
-      /** @noinspection HtmlUnknownAttribute */
-      \preg_match_all( '~<(h[1-6])><a name="([^"]+)">([^<\\r\\n]+)</a>~', $markup, $headerMatches );
+       \preg_match_all( '~<(h[1-6])><a name="([^"]+)">([^<\\r\\n]+)</a>~', $markup, $headerMatches );
 
       for ( $i = 0, $c = \count( $headerMatches[ 0 ] ); $i < $c; $i++ )
       {

@@ -4,7 +4,7 @@
  * @copyright  ©2017, Ni Irrty
  * @package    Niirrty\Md2Pdf
  * @since      2017-10-15
- * @version    0.1.0
+ * @version    0.3.0
  */
 
 

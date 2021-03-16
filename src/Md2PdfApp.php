@@ -4,7 +4,7 @@
  * @copyright  ©2017, Ni Irrty
  * @package    Niirrty\Md2Pdf
  * @since      2017-10-11
- * @version    0.1.0
+ * @version    0.3.0
  */
 
 
@@ -26,8 +26,8 @@ class Md2PdfApp extends Application
    // <editor-fold desc="// – – –   C O N S T A N T S   – – – – – – – – – – – – – – – – – – – – – – – – – – – – –">
 
    public const NAME       = 'Niirrty Markdown to PDF converter';
-   public const VERSION    = '0.1.1';
-   public const BUILD_DATE = '2017-11-21';
+   public const VERSION    = '0.3.0';
+   public const BUILD_DATE = '2021-03-16';
 
    // </editor-fold>
 

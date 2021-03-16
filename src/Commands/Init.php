@@ -4,7 +4,7 @@
  * @copyright  ©2017, Ni Irrty
  * @package    Niirrty\Md2Pdf\Commands
  * @since      2017-10-11
- * @version    0.1.0
+ * @version    0.3.0
  */
 
 declare( strict_types=1 );
@@ -217,6 +217,8 @@ class Init extends Command
       $output->writeln( '+ <info>Configuration successful generated…</info>' );
       $output->writeln( '  Now you can call the "build" command to build the PDF file.' );
       $output->writeln( '' );
+
+      return 0;
 
    }
 

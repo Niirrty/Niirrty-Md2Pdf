@@ -4,7 +4,7 @@
  * @copyright  ©2017, Ni Irrty
  * @package    Niirrty\Md2Pdf
  * @since      2017-10-11
- * @version    0.1.0
+ * @version    0.3.0
  */
 
 declare( strict_types=1 );
@@ -159,7 +159,7 @@ class Build extends Command
       // Read the config and check if its valid
       if ( ! $this->_readConfig() )
       {
-         exit( 1 );
+         return 1;
       }
 
       // Get MD files if none are already defined by config.
@@ -317,6 +317,8 @@ class Build extends Command
       }
 
       $this->_writeln( 'The output PDF file "<fire>' . $outFile . '</fire>" was successful generated.' );
+
+      return 0;
 
    }
 
@@ -490,7 +492,6 @@ class Build extends Command
          foreach ( $links as $link )
          {
 
-            /** @noinspection PhpUndefinedMethodInspection */
             $href = \str_replace( '\\', '/', \trim( $link->attr( 'href' ) ) );
 
             // Ignore empty hrefs
@@ -514,7 +515,6 @@ class Build extends Command
             // Add file:// prefix for absolute unix paths
             if ( $href[ 0 ] === '/' )
             {
-               /** @noinspection PhpUndefinedMethodInspection */
                $link->attr( 'href', 'file://' . $href );
                continue;
             }
@@ -522,7 +522,6 @@ class Build extends Command
             // Add file:/// prefix for absolute windows paths
             if ( \preg_match( '~^[a-z]:~i', $href ) )
             {
-               /** @noinspection PhpUndefinedMethodInspection */
                $link->attr( 'href', 'file:///' . $href );
                continue;
             }
@@ -530,7 +529,6 @@ class Build extends Command
             $anchorStartPos = \strpos( $href, '#' );
             if ( -1 < $anchorStartPos )
             {
-               /** @noinspection PhpUndefinedMethodInspection */
                $link->attr( 'href', \substr( $href, $anchorStartPos ) );
                continue;
             }
@@ -544,25 +542,21 @@ class Build extends Command
                   $abs = \str_replace( '\\', '/', $abs );
                   if ( \strlen( $abs ) - 3 !== \strpos( $abs, '.md' ) )
                   {
-                     /** @noinspection PhpUndefinedMethodInspection */
                      $link->attr( 'href', null );
                      continue;
                   }
                   if ( \preg_match( '~^' . \preg_quote( $normalizedCwd ) . '/(.+)$~', $abs, $matches ) )
                   {
-                     /** @noinspection PhpUndefinedMethodInspection */
                      $link->attr( 'href', '#' . static::mdFilePathToPageId( $href ) );
                      continue;
                   }
                }
-               /** @noinspection PhpUndefinedMethodInspection */
                $link->attr( 'href', null );
                continue;
             }
 
             if ( \preg_match( '~.+\.md$~', $href ) )
             {
-               /** @noinspection PhpUndefinedMethodInspection */
                $link->attr( 'href', '#' . static::mdFilePathToPageId( $href ) );
             }
 
@@ -578,37 +572,31 @@ class Build extends Command
          {
 
             # $codeBlock is of type \QueryPath\DOMQuery();
-            /** @noinspection PhpUndefinedMethodInspection */
             if ( ! $preBlock->hasAttr( 'class' ) )
             {
                continue;
             }
 
-            /** @noinspection PhpUndefinedMethodInspection */
             $language = $preBlock->attr( 'class' );
             switch ( $language )
             {
                case 'json':
                   $language = 'javascript';
-                  /** @noinspection PhpUndefinedMethodInspection */
                   $preBlock->attr( 'class', 'javascript' );
                   break;
                case 'html':
                   $language = 'html5';
-                  /** @noinspection PhpUndefinedMethodInspection */
                   $preBlock->attr( 'class', 'html5' );
                   break;
                case 'less':
                case 'scss':
                   $language = 'sass';
-                  /** @noinspection PhpUndefinedMethodInspection */
                   $preBlock->attr( 'class', 'sass' );
                   break;
                default:
                   break;
             }
 
-            /** @noinspection PhpUndefinedMethodInspection */
             $geshi = new GeSHi( $preBlock->text(), $language );
             $geshi->set_header_type( GESHI_HEADER_NONE );
             $geshi->enable_classes();
@@ -618,8 +606,6 @@ class Build extends Command
                $this->_geshiStyles[ $language ] = static::fixGeShiStyle( $geshi->get_stylesheet( false ) );
             }
 
-            /** @noinspection PhpUndefinedMethodInspection */
-            /** @noinspection HtmlUnknownAttribute */
             $preBlock->html( \str_replace( '&nbsp;', ' ', \preg_replace( '~<br ?/?>~', '', $geshi->parse_code() ) ) );
 
          }
@@ -634,7 +620,6 @@ class Build extends Command
          foreach ( $images as $image )
          {
 
-            /** @noinspection PhpUndefinedMethodInspection */
             $src = \str_replace( '\\', '/', \trim( $image->attr( 'src' ) ) );
 
             // Ignore empty hrefs
@@ -653,15 +638,12 @@ class Build extends Command
                switch ( $key )
                {
                   case 'width':
-                     /** @noinspection PhpUndefinedMethodInspection */
                      $image->attr( 'width', \trim( $keyValuePair[ 1 ] ) );
                      break;
                   case 'height':
-                     /** @noinspection PhpUndefinedMethodInspection */
                      $image->attr( 'height', \trim( $keyValuePair[ 1 ] ) );
                      break;
                   case 'class':
-                     /** @noinspection PhpUndefinedMethodInspection */
                      $image->attr( 'class', \trim( $keyValuePair[ 1 ] ) );
                      break;
                   default:
@@ -669,7 +651,6 @@ class Build extends Command
                }
                if ( '' !== $style )
                {
-                  /** @noinspection PhpUndefinedMethodInspection */
                   $image->attr( 'style', $style );
                }
                if ( 2 !== \count( $keyValuePair ) )
@@ -708,16 +689,12 @@ class Build extends Command
 
             if ( empty( $src ) )
             {
-               /** @noinspection PhpUndefinedMethodInspection */
                $image->attr( 'src', '' );
-               /** @noinspection PhpUndefinedMethodInspection */
                $image->attr( 'style', 'display:none;' );
             }
             else
             {
-               /** @noinspection PhpUndefinedMethodInspection */
                $image->attr( 'src', $src );
-               /** @noinspection PhpUndefinedMethodInspection */
                $image->attr( 'style', 'display:inline-block;' );
             }
 

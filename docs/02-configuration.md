@@ -33,7 +33,7 @@ If all these steps are done all is saved inside `md2pdf.json` into current worki
 
 If "init with defaults" is used, the directory `.md2pdf` is created and the header template, user style, logo image
 and initial required fonts are inserted. If you want to use other fonts copy them to defined `.md2pdf/fonts` folder and
-use them inside the CSS stylesheet file `.md2pdf/uk-md2pdf.css`
+use them inside the CSS stylesheet file `.md2pdf/md2pdf.css`
 
 If you want to write configuration data to a different config json file you can define the file name by
 
@@ -45,7 +45,7 @@ md2pdf init --config-file=my-md2pdf-config.json
 ## Config file
 
 The config of a md2pdf project must be defined by file `md2pdf.json` inside the folder (no sub folder) where md2pdf is
-called. Or if an other file name should be used it must be passed by `--config-file=CONFIG-FILE` option.
+called. Or if another file name should be used it must be passed by `--config-file=CONFIG-FILE` option.
 
 ### Example file
 
@@ -56,7 +56,7 @@ called. Or if an other file name should be used it must be passed by `--config-f
    "files": [],
    "header": ".md2pdf/header.tpl",
    "footer": ".md2pdf/footer.tpl",
-   "userCSS": [ ".md2pdf/uk-md2pdf.css" ],
+   "userCSS": [ ".md2pdf/md2pdf.css" ],
    "documentTitle": "Md2Pdf Documentation",
    "pageTitle": "Md2Pdf Documentation",
    "tocMaxLevel": 3,
